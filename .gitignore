@@ -1,0 +1,6 @@
+.env
+*.xlsx
+avisos.log
+trabajo/
+__pycache__/
+*.pyc
