@@ -13,6 +13,8 @@ empresa de ecommerce española. Lo que hay acá es una **reconstrucción que
 apunta a un portal falso incluido en el repo**, con 300 envíos inventados,
 porque un scraper público no debería apuntar al sitio real de nadie.
 
+![El scraper inicia sesión en el portal de demostración, consulta 12 envíos y deja el estado de cada uno en el Excel](docs/demo.gif)
+
 ## Qué resuelve
 
 - **Lotes largos sin supervisión.** Un envío que no responde queda pendiente y
@@ -98,7 +100,7 @@ Las tres pruebas de `pruebas/`:
 | Prueba | Portal | Resultado esperado |
 |---|---|---|
 | 1. Control | Sin fallos | 300 de 300 correctos en una corrida |
-| 2. Reanudación | Sin fallos; el scraper se mata de golpe en el envío 131 | El checkpoint tiene 100 resueltos; al relanzar no se vuelve a consultar ninguno de esos 100; la salida tiene 300 filas, sin duplicados, todas correctas |
+| 2. Reanudación | Sin fallos; el scraper se mata de golpe en el envío 131 | El checkpoint tiene 100 resueltos; al relanzar se hacen exactamente las 200 consultas que faltaban, sin repetir ninguno de esos 100; la salida tiene 300 filas, sin duplicados, todas correctas |
 | 3. Errores del portal | Error 500 cada 23 búsquedas, 3 % de respuestas de 12 s, sesión que caduca a las 110 búsquedas | Se corta con aviso; hay reintentos; **ningún estado equivocado** en ninguna corrida; relanzando, 300 de 300 |
 
 ```
@@ -122,7 +124,12 @@ RESUMEN
   PASA   Prueba 3: errores del portal  (5.0 min)
 ```
 
+Las pruebas usan la carpeta `trabajo/` y cada una empieza vaciando la suya,
+así que no hay que correr dos copias a la vez en la misma máquina.
+
 ## Cómo correrlo
+
+Probado con Python 3.13 y Playwright 1.55 en Windows.
 
 ```bash
 pip install -r requirements.txt
